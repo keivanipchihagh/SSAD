@@ -36,7 +36,7 @@
 
 
 ## About The Project
-...
+This project aims to benchmark light-weight models tailored specifically for the task of Semantic Segmentation in autonomous self-driving vehicles. To fulfil our desired behavior, models must be balanced between both precision, computational efficiency and real-time responsiveness, a crucial requirement for safe and effective autonomous navigation systems.
 
 
 ## Installation
@@ -56,7 +56,16 @@
 
 
 ## Contributing
-...
+Thank you for considering contributing to this project! Contributions are welcome and encouraged.
+
+Please ensure that your pull request adheres to the following guidelines:
+
+- Describe the problem or feature in detail.
+- Make sure your code follows the project's coding style and conventions.
+- Include relevant tests and ensure they pass.
+- Update the documentation to reflect your changes if necessary.
+
+By contributing to this project, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md). Thank you for your contributions to making this project better!
 
 
 ## License
