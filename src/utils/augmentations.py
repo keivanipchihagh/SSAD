@@ -7,8 +7,6 @@
 #
 ##########################################################
 
-# Standard
-import numpy as np
 from torchvision.transforms import (
     Compose,
     Resize,
@@ -19,7 +17,7 @@ from torchvision.transforms import (
 
 class CityScapesTransforms(object):
 
-    def __init__(self, size: int, mean: np.array, std: np.array):
+    def __init__(self, size: int):
         self.image_transform = Compose([
             Resize((size, size), antialias=True),
             ToTensor(),
@@ -38,7 +36,7 @@ class CityScapesTransforms(object):
 
 class CamVidTransforms(object):
 
-    def __init__(self, size: int, mean: np.array, std: np.array):
+    def __init__(self, size: int):
         self.image_transform = Compose([
             Resize((size, size), antialias=True),
             ToTensor(),

@@ -7,41 +7,8 @@
 #
 ##########################################################
 
-# Standard
-import os
-import json
 import numpy as np
 import pandas as pd
-from glob import glob
-from typing import List
-
-
-class NumpyEncoder(json.JSONEncoder):
-
-    def default(self, obj):
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return json.JSONEncoder.default(self, obj)
-
-
-
-def walk(dir: str, img_postfix: str = '', extension: str = 'png') -> List[str]:
-    """
-        Walks through a directory and retrieves images from the subdirectories
-
-        Parameters:
-            dir (str): Parent directory
-            img_postfix (str): Image postfix
-            extension (str): Image extention (default: png) 
-        Returns:
-            (List[str]): List of relative paths for the images
-    """
-    paths: List[str] = []
-    for dir, _, _ in os.walk(dir):
-        sub_paths: List[str] = glob(f"{dir}/*{img_postfix}.{extension}")
-        paths.extend(sub_paths)
-    return paths
-
 
 
 def image_to_segmentation(image: np.ndarray, map: pd.DataFrame) -> np.ndarray:

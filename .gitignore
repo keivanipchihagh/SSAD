@@ -160,6 +160,6 @@ cython_debug/
 #.idea/
 
 # Datasets
-data/datasets/**/*.png
-data/datasets/**/*.jpg
-data/datasets/Cityspaces/gtFine/**/*.json
+datasets/**/*.png
+datasets/**/*.jpg
+datasets/Cityspaces/gtFine/**/*.json

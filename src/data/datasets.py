@@ -7,7 +7,6 @@
 #
 ##########################################################
 
-# Standard
 import os
 from PIL import Image
 from torch import Tensor

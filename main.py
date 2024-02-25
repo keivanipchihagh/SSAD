@@ -7,13 +7,15 @@
 #
 ##########################################################
 
-# Standard
 import os
 import torch
 import pandas as pd
 from torch import nn
 from argparse import ArgumentParser
 from torch.utils.tensorboard import SummaryWriter
+
+# Third-party
+from src.utils.utilities import setup_seed, print_args
 
 
 
@@ -50,3 +52,5 @@ def load_args() -> ArgumentParser:
 
 if __name__ == '__main__':
     args = load_args()      # Load Arguments
+    print_args(args)        # Print Arguments
+    setup_seed(args.seed)   # Setup Random Seed for reproduction
