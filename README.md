@@ -18,7 +18,12 @@
     </li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#datasets">Data</a></li>
+    <li>
+      <a href="#data">Data</a>
+      <ul>
+        <li><a href="#datasets">Datasets</a></li>
+      </ul>
+    </li>
     <li>
       <a href="#models">Models</a>
       <ul>
@@ -48,7 +53,14 @@ This project aims to benchmark light-weight models tailored specifically for the
 
 
 ## Data
-...
+### Datasets
+There are many Semantic Segmentation datasets available for the task of Autonomous Driving. The following datasets are used in this project:
+
+#### Cityscapes ([Kaggle](https://www.kaggle.com/datasets/xiaose/cityscapes))
+The [Cityscapes Dataset](https://www.cityscapes-dataset.com/dataset-overview/) focuses on semantic understanding of urban street scenes. In the following, we give an overview on the design choices that were made to target the dataset’s focus. It involves **5000** fine and **20000** coarse annotated images for **30** semantic classes.
+
+#### CamVid ([Kaggle](https://www.kaggle.com/datasets/carlolepelaars/camvid))
+The [Cambridge-driving Labeled Video Database (CamVid)](https://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/) was one of the first semantically segmented datasets to be released in the self-driving space in late 2007. They used their own image annotation software to annotate **700** images from a video sequence of 10 minutes. The camera was set up on the dashboard of a car, with a similar field of view as that of the driver. There are **32** semantic classes for this dataset.
 
 
 ## Models
