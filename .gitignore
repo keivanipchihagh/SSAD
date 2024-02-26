@@ -166,3 +166,6 @@ data/datasets/Cityspaces/gtFine/**/*.json
 
 # History
 history/
+
+# Other
+*.xlsx

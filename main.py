@@ -42,7 +42,7 @@ def load_args() -> ArgumentParser:
     parser.add_argument('--dataset',        type=str,   default="cityscapes",   help="Dataset Name (default: cityscapes)",  choices=["cityscapes", "camvid"])
     parser.add_argument('--batch_size',     type=int,   default=32,             help="Batch Size (default: 32)")
     parser.add_argument('--shuffle',        type=bool,  default=False,          help="Shuffle Dataset (default: True)")
-    parser.add_argument('--num_workers',    type=int,   default=2,              help="Number of Workers (defualt: 4)")
+    parser.add_argument('--num_workers',    type=int,   default=4,              help="Number of Workers (defualt: 4)")
     parser.add_argument('--n_images',       type=int,   default=5000,           help="Number of images to load for training and validation (default: None)")
     # Model
     parser.add_argument('--model',          type=str,   default="unet",         help="Model Architecture (default: unet)")

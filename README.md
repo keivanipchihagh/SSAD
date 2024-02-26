@@ -63,6 +63,14 @@ The [Cityscapes Dataset](https://www.cityscapes-dataset.com/dataset-overview/) f
 #### • CamVid ([Kaggle](https://www.kaggle.com/datasets/carlolepelaars/camvid))
 The [Cambridge-driving Labeled Video Database (CamVid)](https://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/) was one of the first semantically segmented datasets to be released in the self-driving space in late 2007. They used their own image annotation software to annotate **700** images from a video sequence of 10 minutes. The camera was set up on the dashboard of a car, with a similar field of view as that of the driver. There are **32** semantic classes for this dataset.
 
+#### • KITTI ([Kaggle](https://www.kaggle.com/datasets/klemenko/kitti-dataset))
+[KITTI](https://www.cvlibs.net/datasets/kitti/eval_semseg.php?benchmark=semantics2015) consists of 200 semantically annotated train as well as 200 test images corresponding to the KITTI Stereo and Flow Benchmark 2015. The data format and metrics are conform with The [Cityscapes Dataset](https://www.cityscapes-dataset.com/dataset-overview/).
+
+#### • DUS
+The [Daimler Urban Segmentation Dataset (DUS)](https://paperswithcode.com/dataset/dus) is a dataset for semantic segmentation. It consists of video sequences recorded in urban traffic. The dataset consists of **5000** rectified stereo image pairs with a resolution of 1024x440. 500 frames (every 10th frame of the sequence) come with pixel-level semantic class annotations into 5 classes: ground, building, vehicle, pedestrian, sky.
+
+#### • Mapillary ([Kaggle](https://www.kaggle.com/datasets/kaggleprollc/mapillary-vistas-image-data-collection))
+[Mapillary Vistas Dataset](https://www.mapillary.com/dataset/vistas) is a diverse street-level imagery dataset with pixel‑accurate and instance‑specific human annotations for understanding street scenes around the world. It contains **25000** high-resolution images and **124** semantic object categories collected from 6 continents with a variety of weather, season, time of day, camera, and viewpoints.
 
 ## Models
 ...
