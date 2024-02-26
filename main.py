@@ -15,8 +15,10 @@ from argparse import ArgumentParser
 from torch.utils.tensorboard import SummaryWriter
 
 # Third-party
+from models.unet import UNet
 from data.utilities import train_valid_loaders
 from utils.utilities import setup_seed, print_args
+from models.loss import CrossEntropyLoss2d, FocalLoss2d
 from data.datasets import CamVidDataset, CityScapesDataset
 from data.augmentations import CityScapesTransforms, CamVidTransforms
 
@@ -42,6 +44,7 @@ def load_args() -> ArgumentParser:
     parser.add_argument('--n_images',       type=int,   default=2000,           help="Number of images to load for training and validation (default: None)")
     # Model
     parser.add_argument('--model',          type=str,   default="unet",         help="Model Architecture (default: unet)")
+    parser.add_argument('--criteria',       type=str,   default="cross_entropy",help="Criteria function (default: cross_entropy)")
     # Training
     parser.add_argument('--max_epochs',     type=int,   default=100,            help="Maximum Number of Epochs (default: 100)")
     parser.add_argument('--resume',         type=str,   default=None,           help="Checkpoint to resume from (default: None)")
@@ -97,3 +100,46 @@ if __name__ == '__main__':
         shuffle =  args.shuffle,
         n_images =  args.n_images,
     )
+
+    # ---------- Model -----------
+    if args.model == 'unet':
+        # U-Net
+        model = UNet(n_classes)
+    else:
+        raise Exception("Unknown Model Name")
+
+    # --------- Criteria ---------
+    if args.criteria == 'focal_loss':
+        criteria = FocalLoss2d(
+            weights = None,
+            ignore_index = ignore_label
+        )
+    elif args.criteria == 'cross_entropy':
+        criteria = CrossEntropyLoss2d(
+            weights = None,
+            ignore_index = ignore_label
+        )
+    else:
+        raise Exception("Unknown Criteria Name")
+
+    # -------- Optimizer --------
+    if args.optim == 'sgd':
+        optim = torch.optim.SGD(
+            params = filter(lambda p: p.requires_grad, model.parameters()),
+            lr = args.lr,
+            momentum = 0.9,
+            weight_decay = 1e-4
+        )
+    elif args.optim == 'adam':
+        optim = torch.optim.Adam(
+            params = filter(lambda p: p.requires_grad, model.parameters()),
+            lr = args.lr,
+            betas = (0.9, 0.999),
+            eps = 1e-08,
+            weight_decay = 1e-4
+        )
+
+    # ------- Move to GPU -------
+    if args.use_cuda:
+        model = nn.DataParallel(model).cuda()   # Model
+        criteria = criteria.cuda()              # Criteria
