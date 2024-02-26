@@ -15,7 +15,9 @@ from argparse import ArgumentParser
 from torch.utils.tensorboard import SummaryWriter
 
 # Third-party
+from utils import logger
 from models.unet import UNet
+from models.train import Trainer
 from data.utilities import train_valid_loaders
 from utils.utilities import setup_seed, print_args
 from models.loss import CrossEntropyLoss2d, FocalLoss2d
@@ -41,10 +43,10 @@ def load_args() -> ArgumentParser:
     parser.add_argument('--batch_size',     type=int,   default=32,             help="Batch Size (default: 32)")
     parser.add_argument('--shuffle',        type=bool,  default=False,          help="Shuffle Dataset (default: True)")
     parser.add_argument('--num_workers',    type=int,   default=2,              help="Number of Workers (defualt: 4)")
-    parser.add_argument('--n_images',       type=int,   default=2000,           help="Number of images to load for training and validation (default: None)")
+    parser.add_argument('--n_images',       type=int,   default=5000,           help="Number of images to load for training and validation (default: None)")
     # Model
     parser.add_argument('--model',          type=str,   default="unet",         help="Model Architecture (default: unet)")
-    parser.add_argument('--criteria',       type=str,   default="cross_entropy",help="Criteria function (default: cross_entropy)")
+    parser.add_argument('--criteria',       type=str,   default="focal_loss",   help="Criteria function (default: focal_loss)")
     # Training
     parser.add_argument('--max_epochs',     type=int,   default=100,            help="Maximum Number of Epochs (default: 100)")
     parser.add_argument('--resume',         type=str,   default=None,           help="Checkpoint to resume from (default: None)")
@@ -62,14 +64,14 @@ if __name__ == '__main__':
     setup_seed(args.seed)   # Setup Random Seed for reproduction
 
     # -------- Identifier ----------
-    identifier = f"{args.dataset}_{args.batch_size}_{args.n_images}_{args.model}_{args.optim}_{args.lr}_{args.lr_schedule}"
+    identifier = f"{args.dataset}_{args.batch_size}_{args.n_images}_{args.model}_{args.criteria}_{args.optim}_{args.lr}_{args.lr_schedule}"
     os.makedirs(f'history/{identifier}/weights', exist_ok = True)
     os.makedirs(f'history/{identifier}/tensorboard', exist_ok = True)
 
     # -------- Tensorboard ---------
     tb_writer = None
     if args.use_tb:
-        tb_writer = SummaryWriter(f"history/tensorboard/{identifier}")
+        tb_writer = SummaryWriter(f"history/{identifier}/tensorboard")
 
     # ------- Configure CUDA -------
     args.use_cuda = args.use_cuda and torch.cuda.is_available()
@@ -100,6 +102,7 @@ if __name__ == '__main__':
         shuffle =  args.shuffle,
         n_images =  args.n_images,
     )
+    segmentation_map = pd.read_csv(f"{root_dir}/class_dict.csv")    # Segmentation mapper
 
     # ---------- Model -----------
     if args.model == 'unet':
@@ -138,8 +141,38 @@ if __name__ == '__main__':
             eps = 1e-08,
             weight_decay = 1e-4
         )
+    else:
+        raise Exception("Unknown Optimizer Name")
 
     # ------- Move to GPU -------
     if args.use_cuda:
         model = nn.DataParallel(model).cuda()   # Model
         criteria = criteria.cuda()              # Criteria
+
+    # ------ Resume Training -------
+    start_epoch = 0
+    if args.resume:
+        if os.path.isfile(args.resume):
+            checkpoint = torch.load(args.resume)        # Load checkpoint
+            start_epoch = checkpoint['epoch']           # Load last epoch
+            model.load_state_dict(checkpoint['model'])  # Load last state
+            logger.info(f"Resuming from checkpoint '{args.checkpoint}' (Epoch {start_epoch})...")
+        else:
+            raise Exception(f"Checkpoint '{args.resume}' not found.")
+
+    # ------- Train -------
+    Trainer(
+        model = model,
+        criteria = criteria,
+        optimizer = optim,
+        scheduler = None,
+        device = device,
+        segmentation_map = segmentation_map
+    ).run(
+        start_epoch = start_epoch,
+        end_epoch = args.max_epochs,
+        train_loader = train_loader,
+        valid_loader = valid_loader,
+        tb_writer = tb_writer,
+        identifier = identifier,
+    )
