@@ -7,6 +7,7 @@
     ·
     <a href="https://github.com/keivanipchihagh/SSAD/issues">Request Feature</a>
   </p>
+  <img src="archive\assets\gifs\ss_video.gif" />
 </div>
 
 <!-- Table of Contents -->
