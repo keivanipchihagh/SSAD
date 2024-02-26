@@ -15,7 +15,10 @@ from argparse import ArgumentParser
 from torch.utils.tensorboard import SummaryWriter
 
 # Third-party
-from src.utils.utilities import setup_seed, print_args
+from data.utilities import train_valid_loaders
+from utils.utilities import setup_seed, print_args
+from data.datasets import CamVidDataset, CityScapesDataset
+from data.augmentations import CityScapesTransforms, CamVidTransforms
 
 
 
@@ -24,7 +27,7 @@ def load_args() -> ArgumentParser:
         Loads CMD Arguments
 
         Returns:
-            (ArgumentParser): Arguments
+            - (ArgumentParser): Arguments
     """
     parser = ArgumentParser(description='')
     # Global
@@ -34,9 +37,9 @@ def load_args() -> ArgumentParser:
     # Datasets
     parser.add_argument('--dataset',        type=str,   default="cityscapes",   help="Dataset Name (default: cityscapes)",  choices=["cityscapes", "camvid"])
     parser.add_argument('--batch_size',     type=int,   default=32,             help="Batch Size (default: 32)")
-    parser.add_argument('--shuffle',        type=bool,  default=True,           help="Shuffle Dataset (default: True)")
+    parser.add_argument('--shuffle',        type=bool,  default=False,          help="Shuffle Dataset (default: True)")
     parser.add_argument('--num_workers',    type=int,   default=2,              help="Number of Workers (defualt: 4)")
-    parser.add_argument('--n_images',       type=int,   default=5000,           help="Number of images to load for training and validation (default: None)")
+    parser.add_argument('--n_images',       type=int,   default=2000,           help="Number of images to load for training and validation (default: None)")
     # Model
     parser.add_argument('--model',          type=str,   default="unet",         help="Model Architecture (default: unet)")
     # Training
@@ -54,3 +57,43 @@ if __name__ == '__main__':
     args = load_args()      # Load Arguments
     print_args(args)        # Print Arguments
     setup_seed(args.seed)   # Setup Random Seed for reproduction
+
+    # -------- Identifier ----------
+    identifier = f"{args.dataset}_{args.batch_size}_{args.n_images}_{args.model}_{args.optim}_{args.lr}_{args.lr_schedule}"
+    os.makedirs(f'history/{identifier}/weights', exist_ok = True)
+    os.makedirs(f'history/{identifier}/tensorboard', exist_ok = True)
+
+    # -------- Tensorboard ---------
+    tb_writer = None
+    if args.use_tb:
+        tb_writer = SummaryWriter(f"history/tensorboard/{identifier}")
+
+    # ------- Configure CUDA -------
+    args.use_cuda = args.use_cuda and torch.cuda.is_available()
+    device = torch.device('cuda') if args.use_cuda else torch.device('cpu')
+
+    # ------------ Data ------------
+    if args.dataset == 'cityscapes':
+        # cityscapes
+        n_classes = 34
+        ignore_label = 255
+        root_dir = "data/datasets/Cityspaces"
+        dataset = CityScapesDataset
+        augmentation = CityScapesTransforms(256)
+    elif args.dataset == 'camvid':
+        # camvid
+        n_classes = 11
+        ignore_label = 11
+        root_dir = "data/datasets/CamVid"
+        dataset = CamVidDataset
+        augmentation = CamVidTransforms(256)
+
+    train_loader, valid_loader = train_valid_loaders(
+        root_dir = root_dir,
+        dataset = dataset,
+        batch_size = args.batch_size,
+        num_workers =  args.num_workers,
+        transform = augmentation,
+        shuffle =  args.shuffle,
+        n_images =  args.n_images,
+    )

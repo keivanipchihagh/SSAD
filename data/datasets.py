@@ -15,7 +15,7 @@ from torch.utils.data import Dataset
 import torchvision.transforms as transform
 
 # Third-party
-from utilities import walk
+from utils.utilities import walk
 
 
 class BaseDataset(Dataset):
