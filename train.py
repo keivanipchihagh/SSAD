@@ -43,16 +43,16 @@ def load_args() -> ArgumentParser:
     parser.add_argument('--batch_size',     type=int,   default=32,             help="Batch Size (default: 32)")
     parser.add_argument('--shuffle',        type=bool,  default=False,          help="Shuffle Dataset (default: True)")
     parser.add_argument('--num_workers',    type=int,   default=4,              help="Number of Workers (defualt: 4)")
-    parser.add_argument('--n_images',       type=int,   default=5000,           help="Number of images to load for training and validation (default: None)")
+    parser.add_argument('--n_images',       type=int,   default=3000,           help="Number of images to load for training and validation (default: None)")
     # Model
     parser.add_argument('--model',          type=str,   default="unet",         help="Model Architecture (default: unet)")
     parser.add_argument('--criteria',       type=str,   default="focal_loss",   help="Criteria function (default: focal_loss)")
     # Training
-    parser.add_argument('--max_epochs',     type=int,   default=100,            help="Maximum Number of Epochs (default: 100)")
+    parser.add_argument('--max_epochs',     type=int,   default=50,             help="Maximum Number of Epochs (default: 100)")
     parser.add_argument('--resume',         type=str,   default=None,           help="Checkpoint to resume from (default: None)")
     parser.add_argument('--optim',          type=str,   default="adam",         help="Optimizer to use (default: adam)", choices=["sgd", "adam"])
     parser.add_argument('--lr',             type=float, default=5e-4,           help="Initial Learning Rate")
-    parser.add_argument('--lr_schedule',    type=str,   default="poly",         help="Learning Rate Scheduler Policy (default: poly)", choices = ["poly"])
+    # parser.add_argument('--lr_schedule',    type=str,   default="poly",         help="Learning Rate Scheduler Policy (default: poly)", choices = ["poly"])
 
     return parser.parse_args()
 
@@ -167,12 +167,12 @@ if __name__ == '__main__':
         optimizer = optim,
         scheduler = None,
         device = device,
-        segmentation_map = segmentation_map
+        segmentation_map = segmentation_map,
+        tb_writer = tb_writer,
     ).run(
         start_epoch = start_epoch,
         end_epoch = args.max_epochs,
         train_loader = train_loader,
         valid_loader = valid_loader,
-        tb_writer = tb_writer,
         identifier = identifier,
     )

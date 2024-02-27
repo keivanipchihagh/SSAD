@@ -7,6 +7,8 @@
 #
 ##########################################################
 
+# Credits: https://github.com/wanghao9610/TMANet/blob/master/tools/convert_datasets/camvid_video_process.py
+
 import os
 import cv2
 import shutil
@@ -290,12 +292,11 @@ class VideoReader:
 
 
 
-
 if __name__ == '__main__':
 
     path            = './data/datasets/CamVid'
     video_names     = ['0005VD.MXF', '0006R0.MXF', '0016E5.MXF', '01TP_extract.avi']
-    frame_templates = ['0005VD_{:05d}.png', '0006R0_{:05d}.png', '0016E5_{:05d}.png', '0001TP_{:06d}.png']
+    frame_templates = ['Seq05VD_f{:05d}.png', '0006R0_f{:05d}.png', '0016E5_{:05d}.png', '0001TP_{:06d}.png']
     file_start      = [-1, -1, -1, 6660]
     video_start     = [0, 0, 0, 0]
 
