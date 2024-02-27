@@ -18,7 +18,13 @@
       <a href="#about-the-project">About The Project</a>
     </li>
     <li><a href="#installation">Installation</a></li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#training">Training</a></li>
+        <li><a href="#testing">Testing</a></li>
+      </ul>
+    </li>
     <li>
       <a href="#data">Data</a>
       <ul>
@@ -50,7 +56,14 @@ This project aims to benchmark light-weight models tailored specifically for the
 
 
 ## Usage
-...
+### Training
+
+### Testing
+To test on **CamVid**, download the raw videos from [here](http://vis.cs.ucl.ac.uk/Download/G.Brostow/CamVid/) and move them under `data/datasets/CamVid/videos`. Then, run the following script to extract the frames:
+```python
+python ./data/tools/camvid_video_process.py
+```
+> :Warning: **Extracted video are very large! (~25GB)**:
 
 
 ## Data
