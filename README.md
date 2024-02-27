@@ -63,7 +63,8 @@ To test on **CamVid**, download the raw videos from [here](http://vis.cs.ucl.ac.
 ```python
 python ./data/tools/camvid_video_process.py
 ```
-> :Warning: **Extracted video are very large! (~25GB)**:
+> [!CAUTION]
+> **Extracted video are very large! (~25GB)**:
 
 
 ## Data
