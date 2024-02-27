@@ -1,17 +1,29 @@
-# Copyright (c) Open-MMLab. All rights reserved.
-import os
-import os.path as osp
-from collections import OrderedDict
-import shutil
-import cv2
-import numpy as np
-from cv2 import (CAP_PROP_FOURCC, CAP_PROP_FPS, CAP_PROP_FRAME_COUNT,
-                 CAP_PROP_FRAME_HEIGHT, CAP_PROP_FRAME_WIDTH,
-                 CAP_PROP_POS_FRAMES)
-from tqdm import tqdm
+##########################################################
+#
+# Copyright (C) 2023-PRESENT: Keivan Ipchi Hagh
+#
+# Email:            keivanipchihagh@gmail.com
+# GitHub:           https://github.com/keivanipchihagh
+#
+##########################################################
 
-from mmengine.utils import (check_file_exist, mkdir_or_exist, scandir,
-                            track_progress)
+import os
+import cv2
+import shutil
+from collections import OrderedDict
+from cv2 import (
+    CAP_PROP_FOURCC,
+    CAP_PROP_FPS,
+    CAP_PROP_FRAME_COUNT,
+    CAP_PROP_FRAME_HEIGHT,
+    CAP_PROP_FRAME_WIDTH,
+    CAP_PROP_POS_FRAMES,
+)
+from mmengine.utils import (
+    check_file_exist,
+    mkdir_or_exist,
+    track_progress,
+)
 
 
 class Cache:
@@ -40,6 +52,7 @@ class Cache:
     def get(self, key, default=None):
         val = self._cache[key] if key in self._cache else default 
         return val
+
 
 
 class VideoReader:
@@ -225,7 +238,7 @@ class VideoReader:
 
         def write_frame(file_idx):
             img = self.read()
-            filename = osp.join(frame_dir, filename_tmpl.format(file_idx))
+            filename = os.path.join(frame_dir, filename_tmpl.format(file_idx))
             cv2.imwrite(filename, img)
 
         if show_progress:
@@ -236,7 +249,7 @@ class VideoReader:
                 img = self.read()
                 if img is None:
                     break
-                filename = osp.join(frame_dir,
+                filename = os.path.join(frame_dir,
                                     filename_tmpl.format(i + file_start))
                 cv2.imwrite(filename, img)
 
@@ -276,23 +289,32 @@ class VideoReader:
         self._vcap.release()
 
 
-camvid_path = "./data/camvid"   # put the downloaded four videos on /data/camvid/raw .
-video_names = ['0005VD.MXF', '0006R0.MXF', '0016E5.MXF', '01TP_extract.avi']
-filename_tmpl = ['Seq05VD_f{:05d}.png', '0006R0_f{:05d}.png', '0016E5_{:05d}.png', '0001TP_{:06d}.png']
-file_start = [-1, -1, -1, 6660]
-start = [0, 0, 0, 0]  # read frames: 6600, 7170, 11382, 3751; soft frames:6599, 7169, 11381, 3747
-for i, video in enumerate(video_names):
-    # if video == '01TP_extract.avi':
-    video_path = osp.join(camvid_path, 'raw', video)
-    video_reader = VideoReader(video_path)
-    print('video name:', video)
-    print('video:info')
-    print('opened:', video_reader.opened, 'resolution', video_reader.resolution, 'fps:', video_reader.fps,
-          'total frames:', video_reader.frame_cnt)
-    print('\n')
-    save_path = osp.join(camvid_path, 'image_sequence', str(i))
-    # if osp.exists(save_path):
-    #     shutil.rmtree(save_path)
 
-    video_reader.cvt2frames(frame_dir=save_path, file_start=file_start[i], filename_tmpl=filename_tmpl[i],
-                            start=start[i])     # extract frames from the given video
+
+if __name__ == '__main__':
+
+    path            = './data/datasets/CamVid'
+    video_names     = ['0005VD.MXF', '0006R0.MXF', '0016E5.MXF', '01TP_extract.avi']
+    frame_templates = ['0005VD_{:05d}.png', '0006R0_{:05d}.png', '0016E5_{:05d}.png', '0001TP_{:06d}.png']
+    file_start      = [-1, -1, -1, 6660]
+    video_start     = [0, 0, 0, 0]
+
+    for i, video_name in enumerate(video_names):
+        video_path = os.path.join(path, 'videos', video_name)   # Get video path
+        video_reader = VideoReader(video_path)              # Read video
+
+        # Video information
+        print('\n'*2)
+        print(f'Video Name: "{video_name}"', f'Resolution: {video_reader.resolution}', f'FPS: {video_reader.fps}', f'N.Frames: {video_reader.frame_cnt}', sep = ' | ')
+
+        frames_path = os.path.join(path, 'frames')
+        if os.path.exists(frames_path):
+            shutil.rmtree(frames_path)
+
+        # Save frames
+        video_reader.cvt2frames(
+            frame_dir = frames_path,                # Frame path
+            file_start = file_start[i],             # File start
+            filename_tmpl = frame_templates[i],     # Image template
+            start = video_start[i]                  # Video start frame
+        )

@@ -70,7 +70,7 @@ Next, run the following script to extract the frames:
 python ./data/tools/camvid_video_process.py
 ```
 > [!CAUTION]
-> **Large Files Caution**: Downloading the videos require *8GB* of storage, and extracted frames will take up to *25GB* of space.
+> **Large Files**: Downloading the videos require *8GB* of storage, and extracted frames will take up to *25GB* of space.
 
 
 ## Data
