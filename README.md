@@ -59,12 +59,18 @@ This project aims to benchmark light-weight models tailored specifically for the
 ### Training
 
 ### Testing
-To test on **CamVid**, download the raw videos from [here](http://vis.cs.ucl.ac.uk/Download/G.Brostow/CamVid/) and move them under `data/datasets/CamVid/videos`. Then, run the following script to extract the frames:
+To test on **CamVid**, download the raw videos from [here](http://vis.cs.ucl.ac.uk/Download/G.Brostow/CamVid/) and move them under `data/datasets/CamVid/videos`. File names are as followed:
+- 01TP_extract.avi
+- 0005VD.mxf
+- 0006R0.mxf
+- 0016E5.MXF (*zipped*)
+
+Next, run the following script to extract the frames:
 ```python
 python ./data/tools/camvid_video_process.py
 ```
 > [!CAUTION]
-> **Extracted video are very large! (~25GB)**:
+> **Large Files Caution**: Downloading the videos require *8GB* of storage, and extracted frames will take up to *25GB* of space.
 
 
 ## Data
