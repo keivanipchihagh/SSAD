@@ -1,0 +1,62 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   TeXstudio as your IDE
+%%  برای compile در TeXstudio تنها کافی است منوی Options->Configure TeXstudio را زده و در پنجره Configure TeXstudio در بخش Build گزینه Default Compiler را به XeLaTeX تغییر دهید. سند شما به راحتی compile خواهد شد.
+%   F1 & F5 : Build & view
+%   F6      : Compile
+%   F7      : View
+%   --------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% !TEX TS-program = XeLaTeX
+\documentclass[oneside,msc,12pt]{AUTthesis}
+%% توجه شود برای نسخه نهایی پایان‌نامه حتماً hyperref را غیرفعال کنید.
+
+\input{commands}
+
+\begin{document}
+\baselineskip=.75cm
+\linespread{1.75}
+\input{fa_title}
+% تاییدیه دفاع
+\input{taid}
+% نیایش خود را در فایل زیر بنویسید.
+\input{Chant}
+% سپاسگزاری را در فایل زیر بنویسید.
+\input{acknowledgement}
+% دستور زیر برای شماره گذاری صفحات قبل از فصل اول با حروف ابجد است.
+\pagenumbering{alph}
+%-----------------------------------------------------------------------------
+% فایل زیر دستورات مربوط به نمایش صفحات فهرست مطالب- فهرست اشکال و جداول است.
+\input{TOC-TOF-LOT}
+% در صورت تمایل می‌توانید با فعال کردن دستور بالا، لیست تصاویر را به  پایان‌نامه خود اضافه کنید.
+%-------------------------------------------------------------------------symbols(فهرست نمادها)
+% وجود لیست نمادها الزامیست.(لطفاً نمادهای خود را جایگذین نمادهای پیش‌فرض کنید.)
+\input{list-of-symbols}
+
+\pagenumbering{arabic}
+\pagestyle{style1}
+%--------------------------------------------------------------------------chapters(فصل ها)
+\include{chapter1}
+\include{chapter2}
+\include{chapter3}
+\include{chapter4}
+\include{chapter5}
+
+%--------------------------------------------------------------------------appendix( مراجع و پیوست ها)
+\chapterfont{\vspace*{-2em}\centering\LARGE}%
+
+\appendix
+\bibliographystyle{unsrt-fa}
+\bibliography{references}
+%--------------------------------------------------------------------------dictionary(واژه نامه ها)
+%اگر مایل به داشتن صفحه واژه‌نامه نیستید، خط زیر را غیر فعال کنید.
+\parindent=0pt
+\include{dicfa2en}%
+\include{dicen2fa}
+%--------------------------------------------------------------------------index(نمایه)
+%اگر مایل به داشتن صفحه نمایه نیستید، خط زیر را غیر فعال کنید.
+\pagestyle{style7}
+\printindex
+\pagestyle{style7}
+\include{en-abstract}
+\input{en_title}
+\end{document}

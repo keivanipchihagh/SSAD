@@ -1,0 +1,17 @@
+\hspace *{.5cm}شکل\hfill صفحه \par 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2-1}{\ignorespaces نمونه تبدیل نقشه تقسیم‌بندی شده به تصویر رنگارنگ متناظر\relax }}{6}{figure.caption.4}%
+\contentsline {figure}{\numberline {2-2}{\ignorespaces معماری رمزگذار-رمزگشا\relax }}{7}{figure.caption.5}%
+\contentsline {figure}{\numberline {2-3}{\ignorespaces معماری اتصالات پرش در مدل کاملا کانولوشنی\relax }}{9}{figure.caption.6}%
+\contentsline {figure}{\numberline {2-4}{\ignorespaces معماری مدل \lr {U}-شکل\relax }}{11}{figure.caption.7}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3-1}{\ignorespaces اجزاء معماری \lr {SQNet}\relax }}{14}{figure.caption.8}%
+\contentsline {figure}{\numberline {3-2}{\ignorespaces نمونه تبدیل نقشه تقسیم‌بندی شده به تصویر رنگارنگ متناظر\relax }}{16}{figure.caption.9}%
+\contentsline {figure}{\numberline {3-3}{\ignorespaces معماری مدل \lr {Fast-SCNN}\relax }}{18}{figure.caption.10}%
+\contentsline {figure}{\numberline {3-4}{\ignorespaces مقایسه کانولوشن استاندارد و تفکیک‌پذیر عمق‌محور\relax }}{18}{figure.caption.12}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4-1}{\ignorespaces انواع بر‌چسب‌گذاری دادگان \lr {Cityscapes}\relax }}{22}{figure.caption.16}%
+\addvspace {10\p@ }
+\contentsfinish 
+\contentsfinish 
