@@ -31,16 +31,18 @@ class Trainer():
             scheduler: optim.lr_scheduler._LRScheduler,
             segmentation_map: pd.DataFrame,
             device: torch.device = torch.device("cuda"),
+            tb_writer: SummaryWriter = None,
         ) -> 'Trainer':
         """
             Trainer
 
             Parameters:
-                model (nn.Module): Model to train
-                criteria: Loss function
-                optimizer (optim.Optimizer): Optimization strategy
-                device (torch.device): Device to mount the training on
-                segmentation_map (pd.DataFrame): DataFrame of Segmentation mappings
+                - model (nn.Module): Model to train
+                - criteria: Loss function
+                - optimizer (optim.Optimizer): Optimization strategy
+                - device (torch.device): Device to mount the training on
+                - segmentation_map (pd.DataFrame): DataFrame of Segmentation mappings
+                - tb_writer (SummaryWriter): Tensorboard Writer
         """
         self.model = model
         self.criteria = criteria
@@ -48,6 +50,7 @@ class Trainer():
         self.device = device
         self.scheduler = scheduler
         self.segmentation_map = segmentation_map
+        self.tb_writer = tb_writer
 
 
     def validate(self, loader: DataLoader) -> float:
@@ -64,7 +67,7 @@ class Trainer():
         print("Validating", end = "\t")
 
         with torch.no_grad():
-            for batch in loader:
+            for _, batch in enumerate(loader):
                 # Load batches
                 images: torch.Tensor = batch[0]
                 labels: torch.Tensor = batch[1]
@@ -127,7 +130,6 @@ class Trainer():
         end_epoch: int,
         train_loader: DataLoader,
         valid_loader: DataLoader,
-        tb_writer: SummaryWriter = None,
         identifier: str = '',
     ) -> None:
         """
@@ -138,7 +140,6 @@ class Trainer():
                 end_epoch (int): Ending Epoch
                 train_loader (DataLoader): Training DataLoader
                 valid_loader (DataLoader): Validation DataLoader
-                tb_writer (SummaryWriter): Tensorboard Writer
                 save_plot (bool): Whether to save plots or display them interactively
                 identifier (str): Unique identifier for subfolder name
             Returns:
@@ -150,18 +151,18 @@ class Trainer():
             # Training
             train_loss = self.train(train_loader)
             image = self.build_plot(train_loader, 5)
-            tb_writer.add_image('training_sample', image, epoch)
+            self.tb_writer.add_image('training_sample', image, epoch)
 
             # Validation
             valid_loss = self.validate(valid_loader)
             image = self.build_plot(valid_loader, 5)
-            tb_writer.add_image('validation_sample', image, epoch)
+            self.tb_writer.add_image('validation_sample', image, epoch)
 
             # Save weights
-            torch.save(obj = {"epoch": epoch + 1, "model": self.model.state_dict()}, f = f"history/{identifier}/weights/epoch_{epoch}.pth")
+            torch.save(obj = {"epoch": epoch, "model": self.model.state_dict()}, f = f"history/{identifier}/weights/epoch_{epoch}.pth")
             # Plot metrics
-            if tb_writer:
-                tb_writer.add_scalars('loss', {'training': train_loss, 'validation': valid_loss}, epoch)
+            if self.tb_writer:
+                self.tb_writer.add_scalars('loss', {'training': train_loss, 'validation': valid_loss}, epoch)
 
 
     def build_plot(

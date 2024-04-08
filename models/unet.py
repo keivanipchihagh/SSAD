@@ -10,7 +10,12 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torchsummary import summary
 
+######################################################################################
+# U-Net: Convolutional Networks for BiomedicalImage Segmentation
+# Paper-Link: https://arxiv.org/pdf/1505.04597.pdf
+######################################################################################
 
 class DoubleConvolution(nn.Module):
 
@@ -194,7 +199,6 @@ class OutConvolution(nn.Module):
         return self.conv(x)
 
 
-
 class UNet(nn.Module):
 
     def __init__(
@@ -225,7 +229,7 @@ class UNet(nn.Module):
         self.outc = OutConvolution(64, n_classes)
 
 
-    def forward(self, x: torch.Tensor):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
             Forward pass for the layer
 
@@ -248,3 +252,20 @@ class UNet(nn.Module):
         x = self.outc(x)
 
         return x
+
+
+
+if __name__ == '__main__':
+
+    # Choose the most optimal device available
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    n_classes = 10
+    image_size = (3, 256, 512)
+
+    # Initialize model
+    model = UNet(
+        classes = n_classes
+    ).to(device)
+
+    summary(model, image_size)
