@@ -38,11 +38,9 @@
 \contentsline {subsubsection}{میانگین اشتراک بر اجتماع}{23}{section*.19}%
 \contentsline {section}{\numberline {4-3}شرایط آزمایش}{24}{section.4.3}%
 \contentsline {section}{\numberline {4-4}نتایج آزمایش و مقایسه}{24}{section.4.4}%
-\contentsline {section}{\numberline {4-5}خلاصه}{24}{section.4.5}%
-\contentsline {chapter}{\numberline {5}نتیجه گیری، جمع ‌بندی و پیشنهادات}{25}{chapter.5}%
-\contentsline {section}{\numberline {5-1}جمع‌بندي و نتيجه‌گيري}{26}{section.5.1}%
-\contentsline {section}{\numberline {5-2}پیشنهادات و کار‌های آتی}{27}{section.5.2}%
-\contentsline {chapter}{منابع و مراجع}{28}{appendix*.21}%
-\contentsline {chapter}{واژه‌نامه‌ی فارسی به انگلیسی}{31}{appendix*.22}%
-\contentsline {chapter}{واژه‌نامه‌ی انگلیسی به فارسی}{33}{appendix*.23}%
+\contentsline {section}{\numberline {4-5}خلاصه}{26}{section.4.5}%
+\contentsline {chapter}{\numberline {5}نتیجه گیری، جمع ‌بندی و پیشنهادات}{27}{chapter.5}%
+\contentsline {section}{\numberline {5-1}جمع‌بندي و نتيجه‌گيري}{28}{section.5.1}%
+\contentsline {section}{\numberline {5-2}پیشنهادات و کار‌های آتی}{29}{section.5.2}%
+\contentsline {chapter}{منابع و مراجع}{30}{appendix*.24}%
 \contentsfinish 
